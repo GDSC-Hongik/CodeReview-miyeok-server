@@ -14,10 +14,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private int id;
+    private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(nullable = false, name = "name")
+    private String username;
 
     private String introduction;
 
@@ -29,8 +29,8 @@ public class User {
     private String socialId;
 
     @Builder
-    public User(String name, String introduction, OAuthType provider, String socialId) {
-        this.name = name;
+    public User(String username, String introduction, OAuthType provider, String socialId) {
+        this.username = username;
         this.introduction = introduction;
         this.provider = provider;
         this.socialId = socialId;
