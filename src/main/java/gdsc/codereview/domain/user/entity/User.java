@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "user")
 public class User {
 
     @Id
