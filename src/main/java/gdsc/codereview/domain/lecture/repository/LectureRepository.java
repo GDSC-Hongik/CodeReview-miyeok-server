@@ -1,6 +1,6 @@
 package gdsc.codereview.domain.lecture.repository;
 
-import gdsc.codereview.domain.lecture.domain.Lecture;
+import gdsc.codereview.domain.lecture.entity.Lecture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package gdsc.codereview.domain.lecture.repository;
 
-import gdsc.codereview.domain.lecture.domain.Lecture;
+import gdsc.codereview.domain.lecture.entity.Lecture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
