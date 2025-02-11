@@ -18,6 +18,5 @@ class InflearnCrawlingServiceTest {
     @Test
     public void 강좌_리스트_크롤링() throws Exception{
         inflearnCrawlingService.lectureListCrawling();
-
     }
 }

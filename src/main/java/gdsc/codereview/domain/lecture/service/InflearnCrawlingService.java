@@ -26,8 +26,8 @@ public class InflearnCrawlingService {
         System.setProperty("webdriver.chrome.driver","driver/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
 
-        //인프런 웹 개발 카테고리 url
-        String url = "https://www.inflearn.com/courses/it-programming/web-dev";
+        //인프런 웹 개발 카테고리 url - 최신순
+        String url = "https://www.inflearn.com/courses/it-programming/web-dev?sort=RECENT";
 
         driver.get(url);
 
