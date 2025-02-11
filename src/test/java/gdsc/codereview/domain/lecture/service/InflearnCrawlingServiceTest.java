@@ -1,6 +1,8 @@
 package gdsc.codereview.domain.lecture.service;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,8 +17,13 @@ class InflearnCrawlingServiceTest {
     @Autowired
     InflearnCrawlingService inflearnCrawlingService;
 
+//    @Test
+//    public void 한페이지_강좌_리스트_크롤링() throws Exception{
+//        inflearnCrawlingService.lectureListCrawling(driver);
+//    }
+
     @Test
-    public void 강좌_리스트_크롤링() throws Exception{
-        inflearnCrawlingService.lectureListCrawling();
+    public void 전체페이지_강좌_리스트_크롤링() throws Exception{
+        inflearnCrawlingService.allPageCrolling();
     }
 }

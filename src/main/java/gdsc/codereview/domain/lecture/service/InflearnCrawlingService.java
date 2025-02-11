@@ -21,15 +21,7 @@ public class InflearnCrawlingService {
     private final LectureRepository lectureRepository;
 
     @Transactional
-    public List<String> lectureListCrawling() throws Exception{
-
-        System.setProperty("webdriver.chrome.driver","driver/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-
-        //인프런 웹 개발 카테고리 url - 최신순
-        String url = "https://www.inflearn.com/courses/it-programming/web-dev?sort=RECENT";
-
-        driver.get(url);
+    public List<String> lectureListCrawling(WebDriver driver) throws Exception{ //한 페이지 크롤링
 
         List<String> lecturesLink = new ArrayList<>();
 
@@ -49,11 +41,34 @@ public class InflearnCrawlingService {
             }
         }catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            // 웹 드라이버 종료
-            driver.quit();
         }
 
         return lecturesLink;
     }
+
+    @Transactional
+    public void allPageCrolling() throws Exception{
+        System.setProperty("webdriver.chrome.driver","driver/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+
+        List<String> allLecturesLink = new ArrayList<>();
+
+        for(int i=1;i<=11;i++){ // 임시 하드코딩
+
+            //인프런 웹 개발 카테고리 url - 최신순
+            String url = "https://www.inflearn.com/courses/it-programming/web-dev?sort=RECENT";
+
+            //페이지네이션
+            if(i!=1) url+="&page_number="+i;
+
+            driver.get(url);
+
+            allLecturesLink.addAll(lectureListCrawling(driver));
+        }
+
+        // 웹 드라이버 종료
+        driver.quit();
+
+    }
+
 }
