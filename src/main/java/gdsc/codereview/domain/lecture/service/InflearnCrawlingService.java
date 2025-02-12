@@ -64,6 +64,8 @@ public class InflearnCrawlingService {
                 //인프런 url - 최신순
                 String url = category.getUrl();
 
+                if(i>category.getPageN()) break;
+
                 //페이지네이션
                 if(i!=1) url+="&page_number="+i;
 
