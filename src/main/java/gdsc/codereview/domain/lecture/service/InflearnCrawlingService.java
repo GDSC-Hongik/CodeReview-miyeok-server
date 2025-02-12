@@ -4,6 +4,7 @@ import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -90,34 +91,30 @@ public class InflearnCrawlingService {
         // 각 요소 크롤링
         WebElement webThumbnail = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[2]/div/div[2]/div[1]/figure/div/img"));
         WebElement webTitle = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[1]/h1"));
-//        try{
-//            //평점등록한 학생이 없는 강좌의 경우 평점이 없음
-//            WebElement webScore = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[1]/div[2]/a"));
-//        }catch(NoSuchElementException e){
-//
-//        }
-
-        //href 값 가져와서 리스트에 저장해서 강사 크롤링하기
         WebElement webInstructor = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[2]/ul/li/a"));
         WebElement webSummary = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[1]/p"));
-        //List<WebElement> webContent = driver.findElements(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[3]/div/div/section/div/div[2]/div/ul/li"));
-       // WebElement webStudents = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[1]/div[2]/p/strong"));
 
+        // 수강평점 크롤링 및 추출
+        Double score = 0.0;
+        try {
+            // 평점 요소 찾기 (수강생이 없을 경우 예외 발생)
+            WebElement webScore = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[1]/div[2]/a"));
+            String text = webScore.getText();  // '(5.0) 수강평 1,763개' 꼴로 추출됨
+
+            // 수강평점 추출
+            Pattern pattern = Pattern.compile("\\((\\d+\\.\\d+)\\)");
+            Matcher matcher = pattern.matcher(text);
+
+            if (matcher.find()) {
+                score = Double.parseDouble(matcher.group(1)); // 소수점 변환
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("평점이 없는 강좌입니다");
+        }
 
         // 크롤링된 요소 맵핑
         String thumbnail = webThumbnail.getAttribute("src"); //link를 저장
         String title = webTitle.getText();
-
-        // 수강평점 추출
-//        Double score = 0.0;
-//        Pattern pattern = Pattern.compile("\\((\\d+\\.\\d+)\\)"); // 괄호 안의 소수점 숫자
-//        Matcher matcher = pattern.matcher(webScore.getText());
-//        if (matcher.find()) {
-//            String numberStr = matcher.group(1);  // 첫 번째 그룹: 소수점 숫자
-//            score = Double.parseDouble(numberStr);  // float로 변환
-//            System.out.println("추출된 숫자 (float): " + score);
-//        }
-
         String instructor = webInstructor.getText();
         String instructorLink = webInstructor.getAttribute("href");
         String summary = webSummary.getText();
@@ -125,7 +122,7 @@ public class InflearnCrawlingService {
 
         System.out.println("thumbnail:"+thumbnail);
         System.out.println("title:"+title);
-       // System.out.println("score"+ score);
+        System.out.println("score"+ score);
         System.out.println("instructor"+instructor);
         System.out.println("link:"+instructorLink);
         System.out.println("summary:"+summary);
