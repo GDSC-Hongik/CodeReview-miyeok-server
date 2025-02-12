@@ -18,6 +18,21 @@ public class LectureDto {
     private Category category;
     private Long students;
 
+    @Builder
+    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,
+                      String link, Category category, Long students) {
+        this.title = title;
+        this.summary = summary;
+        this.platform = platform;
+        this.score = score;
+        this.thumbnail = thumbnail;
+        this.link = link;
+        this.category = category;
+        this.students = students;
+    }
+
+
+
     // DTO -> Entity 변환 메서드
     public Lecture toEntity() {
         return Lecture.builder()
@@ -26,7 +41,7 @@ public class LectureDto {
                 .summary(summary)
                 .score(score)
                 .students(students)
-                .lectureLink(link)
+                .link(link)
                 .build();
     }
 }
