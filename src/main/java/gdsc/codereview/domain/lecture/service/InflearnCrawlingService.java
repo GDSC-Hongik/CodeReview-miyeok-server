@@ -25,7 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class InflearnCrawlingService {
 
@@ -46,7 +45,7 @@ public class InflearnCrawlingService {
 
                     String link = aTag.getAttribute("href");
 
-                    System.out.println("link#############"+link);
+//                    System.out.println("link#############"+link);
 
                     detailLectureCrawling(link);
                 }
@@ -116,7 +115,7 @@ public class InflearnCrawlingService {
                 score = Double.parseDouble(matcher.group(1)); // 소수점 변환
             }
         } catch (NoSuchElementException e) {
-            System.out.println("평점이 없는 강좌입니다");
+//            System.out.println("평점이 없는 강좌입니다");
         }
 
         // 수강생 수 크롤링 및 추출
@@ -128,7 +127,7 @@ public class InflearnCrawlingService {
 
             students = Long.parseLong(text.replaceAll("[^0-9]", ""));
         }catch(NoSuchElementException e){
-            System.out.println("수강생 수가 없는 강좌입니다.");
+//            System.out.println("수강생 수가 없는 강좌입니다.");
         }
 
         LectureDto lectureDto = LectureDto.builder()

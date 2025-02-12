@@ -31,11 +31,11 @@ public class LectureDto {
         this.students = students;
     }
 
-
-
     // DTO -> Entity 변환 메서드
     public Lecture toEntity() {
         return Lecture.builder()
+                .platform(platform)
+                .category(category)
                 .title(title)
                 .thumbnail(thumbnail)
                 .summary(summary)

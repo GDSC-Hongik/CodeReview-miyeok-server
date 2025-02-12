@@ -19,6 +19,7 @@ public class Lecture {
 
     private String summary; //간단한 소개
 
+    @Enumerated(EnumType.STRING)
     private Platform platform;
 
     @Column(name = "lecture_score")
@@ -28,6 +29,7 @@ public class Lecture {
 
     private String link; // 강좌 페이지
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     private Long students; //수강생 수
