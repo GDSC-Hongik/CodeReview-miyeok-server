@@ -1,6 +1,9 @@
 package gdsc.codereview.domain.lecture.service;
 
+import gdsc.codereview.domain.lecture.dto.LectureDto;
+import gdsc.codereview.domain.lecture.entity.Category;
 import gdsc.codereview.domain.lecture.entity.Lecture;
+import gdsc.codereview.domain.lecture.entity.Platform;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
@@ -123,10 +126,23 @@ public class InflearnCrawlingService {
             WebElement webStudents = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[1]/div[2]/p/strong"));
             String text = webStudents.getText(); // '352명' 꼴로 추출됨
 
-            students = Long.parseLong(text.replace("명", ""));
+            students = Long.parseLong(text.replaceAll("[^0-9]", ""));
         }catch(NoSuchElementException e){
             System.out.println("수강생 수가 없는 강좌입니다.");
         }
+
+        LectureDto lectureDto = LectureDto.builder()
+                .title(title)
+                .summary(summary)
+                .platform(Platform.INFLEARN)
+                .score(score)
+                .thumbnail(thumbnail)
+                .link(link)
+                .students(students)
+                .category(Category.WEB)
+                .build();
+
+        lectureRepository.save(lectureDto.toEntity());
 
         driver.quit();
 
