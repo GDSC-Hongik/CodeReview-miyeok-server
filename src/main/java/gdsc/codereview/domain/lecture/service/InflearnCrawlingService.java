@@ -45,7 +45,7 @@ public class InflearnCrawlingService {
 
                     System.out.println("link#############"+link);
 
-                    detailLectureCrawling(link,driver);
+                    detailLectureCrawling(link);
                 }
             }
         }catch (Exception e) {
@@ -79,7 +79,9 @@ public class InflearnCrawlingService {
 
     }
 
-    public void detailLectureCrawling(String link,WebDriver driver) {
+    public void detailLectureCrawling(String link) {
+
+        WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
 
         driver.get(link);
 
@@ -123,6 +125,7 @@ public class InflearnCrawlingService {
         System.out.println("summary:"+summary);
        // System.out.println("students:"+students);
 
+        driver.quit();
 
     }
 }
