@@ -10,9 +10,9 @@ import lombok.Getter;
 public class LectureDto {
     private String title;
     private String summary;
-    private String content;
+    //private String content;
     private Platform platform;
-    private Float lectureScore;
+    private Double lectureScore;
     private String thumbnail;
     private String link;
     private Category category;

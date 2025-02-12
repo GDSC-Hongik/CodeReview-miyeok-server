@@ -24,7 +24,7 @@ public class Lecture {
     private String platform;
 
     @Column(name = "lecture_score")
-    private Float score;
+    private Double score;
     
     private String thumbnail; //이미지 경로 저장
 
