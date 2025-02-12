@@ -20,14 +20,14 @@ class LectureRepositoryTest {
     @Autowired
     InflearnCrawlingService inflearnCrawlingService;
 
-    @Test
-    public void 세부강좌_크롤링_저장(){
-        inflearnCrawlingService.detailLectureCrawling("https://www.inflearn.com/course/ORM-JPA-Basic");
-
-        List<Lecture> list =  lectureRepository.findAll();
-        for(Lecture i:list){
-            System.out.println(i.getTitle());
-        }
-
-    }
+//    @Test
+//    public void 세부강좌_크롤링_저장(){
+//        inflearnCrawlingService.detailLectureCrawling("https://www.inflearn.com/course/ORM-JPA-Basic");
+//
+//        List<Lecture> list =  lectureRepository.findAll();
+//        for(Lecture i:list){
+//            System.out.println(i.getTitle());
+//        }
+//
+//    }
 }

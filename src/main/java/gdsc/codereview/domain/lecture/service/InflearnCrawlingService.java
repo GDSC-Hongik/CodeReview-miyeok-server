@@ -39,12 +39,10 @@ public class InflearnCrawlingService {
 
                     String link = aTag.getAttribute("href");
 
-                    System.out.println("link:" + link);
+//                    System.out.println("link:" + link);
 
                     detailLectureCrawling(link,category);
 
-                    // 실험용 break
-                    break;
                 }
             }
         }catch (Exception e) {
@@ -61,7 +59,7 @@ public class InflearnCrawlingService {
 
         for(Category category : Category.values()){
 
-            for(int i=1;i<=1;i++){ // 임시 하드코딩
+            for(int i=1;i<=3;i++){
 
                 //인프런 url - 최신순
                 String url = category.getUrl();
@@ -73,8 +71,6 @@ public class InflearnCrawlingService {
             }
 
         }
-
-
 
         // 웹 드라이버 종료
         driver.quit();
