@@ -2,23 +2,17 @@ package gdsc.codereview.domain.lecture.service;
 
 import gdsc.codereview.domain.lecture.dto.LectureDto;
 import gdsc.codereview.domain.lecture.entity.Category;
-import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.domain.lecture.entity.Platform;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
+import gdsc.codereview.global.SeleniumConfig;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -30,7 +24,7 @@ public class InflearnCrawlingService {
 
     private final LectureRepository lectureRepository;
 
-    public void onePageLectureCrawling(String url, WebDriver driver) throws Exception{ //한 페이지 크롤링
+    public void onePageLectureCrawling(String url, WebDriver driver, Category category) throws Exception{ //한 페이지 크롤링
 
         driver.get(url);
 
@@ -45,9 +39,12 @@ public class InflearnCrawlingService {
 
                     String link = aTag.getAttribute("href");
 
-//                    System.out.println("link#############"+link);
+                    System.out.println("link:" + link);
 
-                    detailLectureCrawling(link);
+                    detailLectureCrawling(link,category);
+
+                    // 실험용 break
+                    break;
                 }
             }
         }catch (Exception e) {
@@ -62,26 +59,29 @@ public class InflearnCrawlingService {
 
         WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
 
-//        List<String> allLecturesLink = new ArrayList<>();
+        for(Category category : Category.values()){
 
-        for(int i=1;i<=1;i++){ // 임시 하드코딩
+            for(int i=1;i<=1;i++){ // 임시 하드코딩
 
-            //인프런 웹 개발 카테고리 url - 최신순
-            String url = "https://www.inflearn.com/courses/it-programming/web-dev?sort=RECENT";
+                //인프런 url - 최신순
+                String url = category.getUrl();
 
-            //페이지네이션
-            if(i!=1) url+="&page_number="+i;
+                //페이지네이션
+                if(i!=1) url+="&page_number="+i;
 
-            onePageLectureCrawling(url, driver);
-//            allLecturesLink.addAll(onePageLectureCrawling(driver));
+                onePageLectureCrawling(url, driver, category);
+            }
+
         }
+
+
 
         // 웹 드라이버 종료
         driver.quit();
 
     }
 
-    public void detailLectureCrawling(String link) {
+    public void detailLectureCrawling(String link,Category category) {
 
         WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
 
@@ -138,7 +138,7 @@ public class InflearnCrawlingService {
                 .thumbnail(thumbnail)
                 .link(link)
                 .students(students)
-                .category(Category.WEB)
+                .category(category)
                 .build();
 
         lectureRepository.save(lectureDto.toEntity());
