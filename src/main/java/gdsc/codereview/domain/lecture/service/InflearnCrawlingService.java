@@ -91,6 +91,13 @@ public class InflearnCrawlingService {
         WebElement webInstructor = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[2]/ul/li/a"));
         WebElement webSummary = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[1]/p"));
 
+        // 크롤링된 요소 맵핑
+        String thumbnail = webThumbnail.getAttribute("src"); //link를 저장
+        String title = webTitle.getText();
+        String instructor = webInstructor.getText();
+        String instructorLink = webInstructor.getAttribute("href");
+        String summary = webSummary.getText();
+
         // 수강평점 크롤링 및 추출
         Double score = 0.0;
         try {
@@ -109,21 +116,17 @@ public class InflearnCrawlingService {
             System.out.println("평점이 없는 강좌입니다");
         }
 
-        // 크롤링된 요소 맵핑
-        String thumbnail = webThumbnail.getAttribute("src"); //link를 저장
-        String title = webTitle.getText();
-        String instructor = webInstructor.getText();
-        String instructorLink = webInstructor.getAttribute("href");
-        String summary = webSummary.getText();
-        //Long students = Long.parseLong(webStuendts.getText());
+        // 수강생 수 크롤링 및 추출
+        Long students = 0L;
+        try{
+            // 수강생 수 찾기 (들은 수강생이 없을 경우 예외 발생)
+            WebElement webStudents = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[3]/div/section[1]/div/div/div[1]/div/div[2]/div[1]/div[2]/p/strong"));
+            String text = webStudents.getText(); // '352명' 꼴로 추출됨
 
-        System.out.println("thumbnail:"+thumbnail);
-        System.out.println("title:"+title);
-        System.out.println("score"+ score);
-        System.out.println("instructor"+instructor);
-        System.out.println("link:"+instructorLink);
-        System.out.println("summary:"+summary);
-       // System.out.println("students:"+students);
+            students = Long.parseLong(text.replace("명", ""));
+        }catch(NoSuchElementException e){
+            System.out.println("수강생 수가 없는 강좌입니다.");
+        }
 
         driver.quit();
 

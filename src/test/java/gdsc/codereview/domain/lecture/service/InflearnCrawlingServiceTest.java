@@ -23,7 +23,7 @@ class InflearnCrawlingServiceTest {
 //    }
 
     @Test
-    public void 모든_강좌_리스트_크롤링() throws Exception{
+    public void 모든_강좌_세부_크롤링() throws Exception{
         inflearnCrawlingService.allPageLectureCrolling();
     }
 }
