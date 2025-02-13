@@ -18,9 +18,9 @@ public class Instructor {
     @Column(name = "instructor_id")
     private Long id;
 
-    private String name;
+    private String name; //강사
 
-    private String instruction;
+    private String instruction; //소개
 
     private Double score;
 

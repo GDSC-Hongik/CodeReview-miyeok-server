@@ -29,6 +29,13 @@ public class InstructorCrawlingService {
 
         for(Lecture lecture : lectures){
 
+            Optional<Instructor> existingInstructor = instructorRepository.findByLink(lecture.getInstructionLink());
+
+            if (existingInstructor.isPresent()) {
+                // 이미 존재하는 강사라면 패스
+                continue;
+            }
+
             String url = lecture.getInstructionLink();
 
             WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
