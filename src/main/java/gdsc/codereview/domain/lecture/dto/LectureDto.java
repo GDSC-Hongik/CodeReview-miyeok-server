@@ -2,8 +2,7 @@ package gdsc.codereview.domain.lecture.dto;
 
 import gdsc.codereview.domain.lecture.entity.Category;
 import gdsc.codereview.domain.lecture.entity.Lecture;
-import gdsc.codereview.domain.lecture.entity.Platform;
-import lombok.AllArgsConstructor;
+import gdsc.codereview.global.Platform;
 import lombok.Builder;
 import lombok.Getter;
 

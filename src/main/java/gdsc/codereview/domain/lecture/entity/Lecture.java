@@ -1,5 +1,6 @@
 package gdsc.codereview.domain.lecture.entity;
 
+import gdsc.codereview.global.Platform;
 import jakarta.persistence.*;
 import lombok.*;
 
