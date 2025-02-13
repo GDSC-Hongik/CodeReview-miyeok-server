@@ -24,6 +24,7 @@ public class Instructor {
 
     private Double score;
 
+    @Enumerated(EnumType.STRING)
     private Platform platform;
 
     private String link;
