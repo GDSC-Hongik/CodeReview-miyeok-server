@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
 
-    Optional<Instructor> findByLink(String link);
+    Instructor findByLink(String link);
 }

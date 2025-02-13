@@ -29,9 +29,9 @@ public class InstructorCrawlingService {
 
         for(Lecture lecture : lectures){
 
-            Optional<Instructor> existingInstructor = instructorRepository.findByLink(lecture.getInstructionLink());
+            Instructor existingInstructor = instructorRepository.findByLink(lecture.getInstructionLink());
 
-            if (existingInstructor.isPresent()) {
+            if (existingInstructor!=null) {
                 // 이미 존재하는 강사라면 패스
                 continue;
             }
@@ -62,6 +62,24 @@ public class InstructorCrawlingService {
             instructorRepository.save(instructorDto.toEntity());
 
             driver.quit();
+        }
+    }
+
+    public void updateInstructorForLectures(){ // lecture에 instructor fk 주입
+        List<Lecture> lectures = lectureRepository.findAll();
+
+        for (Lecture lecture : lectures) {
+
+            Instructor instructor = lecture.getInstructor();
+
+            if(instructor!=null) continue;
+
+            // 강좌에 강사가 연결이 안되어있다면 fk 주입
+            Instructor newInstructor = instructorRepository.findByLink(lecture.getInstructionLink());
+            lecture.setInstructor(newInstructor);
+            lectureRepository.save(lecture);
+
+
         }
     }
 
