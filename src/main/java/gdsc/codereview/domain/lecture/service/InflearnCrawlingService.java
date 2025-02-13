@@ -2,7 +2,7 @@ package gdsc.codereview.domain.lecture.service;
 
 import gdsc.codereview.domain.lecture.dto.LectureDto;
 import gdsc.codereview.domain.lecture.entity.Category;
-import gdsc.codereview.domain.lecture.entity.Platform;
+import gdsc.codereview.global.Platform;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import gdsc.codereview.global.SeleniumConfig;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +44,10 @@ public class InflearnCrawlingService {
                     detailLectureCrawling(link,category);
 
                 }
+
+                //데이터베이스 및 크롤링 간소화용 코드
+                //현재 기능상 강제로 파트별로 30개만 크롤링하도록 설계
+                break;
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -59,12 +63,12 @@ public class InflearnCrawlingService {
 
         for(Category category : Category.values()){
 
-            for(int i=1;i<=3;i++){
+            for(int i=1;i<=1;i++){
 
-                //인프런 url - 최신순
-                String url = category.getUrl();
+                //인프런 url - 인기순
+                String url = category.getInflearnUrl();
 
-                if(i>category.getPageN()) break;
+                if(i>category.getInflearnPageN()) break;
 
                 //페이지네이션
                 if(i!=1) url+="&page_number="+i;
@@ -94,7 +98,7 @@ public class InflearnCrawlingService {
         // 크롤링된 요소 맵핑
         String thumbnail = webThumbnail.getAttribute("src"); //link를 저장
         String title = webTitle.getText();
-        String instructor = webInstructor.getText();
+        String instructorName = webInstructor.getText();
         String instructorLink = webInstructor.getAttribute("href");
         String summary = webSummary.getText();
 
@@ -132,6 +136,8 @@ public class InflearnCrawlingService {
                 .title(title)
                 .summary(summary)
                 .platform(Platform.INFLEARN)
+                .instructorName(instructorName)
+                .instructionLink(instructorLink)
                 .score(score)
                 .thumbnail(thumbnail)
                 .link(link)

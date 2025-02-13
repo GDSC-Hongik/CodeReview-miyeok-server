@@ -15,13 +15,15 @@ public class Lecture {
     @Column(name = "lecture_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id")
     private Instructor instructor; //FK
 
     private String instructionLink;
 
     private String title;
+
+    private String instructorName;
 
     private String summary; //간단한 소개
 
@@ -41,12 +43,13 @@ public class Lecture {
     private Long students; //수강생 수
 
     @Builder
-    public Lecture(String title, String thumbnail, Platform platform, Category category, String instructionLink,
+    public Lecture(String title, String thumbnail, Platform platform, Category category, String instructionLink,String instructorName,
                    Instructor instructor, String summary, Double score, Long students, String link) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.platform = platform;
         this.instructionLink=instructionLink;
+        this.instructorName=instructorName;
         this.instructor=instructor;
         this.category = category;
         this.summary = summary;
