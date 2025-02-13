@@ -1,8 +1,12 @@
 package gdsc.codereview.domain.instructor.entity;
 
+import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.global.Platform;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -23,6 +27,9 @@ public class Instructor {
     private Platform platform;
 
     private String link;
+
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
+    private List<Lecture> lectures;
 
     @Builder
     public Instructor(Long id, String name, String instruction, Double score,

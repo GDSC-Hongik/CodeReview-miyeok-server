@@ -1,5 +1,6 @@
 package gdsc.codereview.domain.lecture.entity;
 
+import gdsc.codereview.domain.instructor.entity.Instructor;
 import gdsc.codereview.global.Platform;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,11 @@ public class Lecture {
     @Column(name = "lecture_id")
     private Long id;
 
-    // fk instruction id
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor; //FK
+
+    private String instructionLink;
 
     private String title;
 
@@ -36,11 +41,13 @@ public class Lecture {
     private Long students; //수강생 수
 
     @Builder
-    public Lecture(String title, String thumbnail, Platform platform, Category category,
-                   String summary, Double score, Long students, String link) {
+    public Lecture(String title, String thumbnail, Platform platform, Category category, String instructionLink,
+                   Instructor instructor, String summary, Double score, Long students, String link) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.platform = platform;
+        this.instructionLink=instructionLink;
+        this.instructor=instructor;
         this.category = category;
         this.summary = summary;
         this.score = score;
