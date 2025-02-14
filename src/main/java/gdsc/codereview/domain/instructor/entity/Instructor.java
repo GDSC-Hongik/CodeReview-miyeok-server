@@ -20,6 +20,7 @@ public class Instructor {
 
     private String name; //강사
 
+    @Column(columnDefinition = "LONGTEXT")
     private String instruction; //소개
 
     private Double score;

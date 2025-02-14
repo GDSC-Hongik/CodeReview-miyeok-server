@@ -28,6 +28,7 @@ public class Lecture {
 
     private String instructorName;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String summary; //간단한 소개
 
     @Enumerated(EnumType.STRING)
