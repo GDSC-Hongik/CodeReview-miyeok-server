@@ -1,8 +1,10 @@
 package gdsc.codereview.domain.review.service;
 
+import gdsc.codereview.domain.instructor.entity.Instructor;
 import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import gdsc.codereview.domain.review.dto.ReviewDto;
+import gdsc.codereview.domain.review.entity.Review;
 import gdsc.codereview.domain.review.repository.ReviewRepository;
 import gdsc.codereview.global.Platform;
 import gdsc.codereview.global.SeleniumConfig;
@@ -43,6 +45,7 @@ public class ReviewCrawlingService {
                 Long score = Long.parseLong(webScores.get(i).getText());
 
                 ReviewDto reviewDto = ReviewDto.builder()
+                        .lecture(lecture)
                         .username(name)
                         .content(content)
                         .score(score)
@@ -56,4 +59,5 @@ public class ReviewCrawlingService {
 
         }
     }
+
 }

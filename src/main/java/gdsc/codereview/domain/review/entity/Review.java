@@ -1,6 +1,7 @@
 package gdsc.codereview.domain.review.entity;
 
 
+import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.global.Platform;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -18,6 +19,10 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
+
     // 유저 - 크롤링
     private String username;
 
@@ -34,11 +39,12 @@ public class Review {
     private Long hated;
 
     @Builder
-    public Review(String username, String content, Platform platform,
+    public Review(String username, String content, Platform platform, Lecture lecture,
                   Long score, Long liked, Long hated) {
         this.username = username;
         this.content = content;
         this.platform = platform;
+        this.lecture = lecture;
         this.score = score;
         this.liked = liked;
         this.hated = hated;

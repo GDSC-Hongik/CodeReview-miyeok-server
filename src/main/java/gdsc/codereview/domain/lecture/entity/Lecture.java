@@ -1,9 +1,12 @@
 package gdsc.codereview.domain.lecture.entity;
 
 import gdsc.codereview.domain.instructor.entity.Instructor;
+import gdsc.codereview.domain.review.entity.Review;
 import gdsc.codereview.global.Platform;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -41,6 +44,9 @@ public class Lecture {
     private Category category;
 
     private Long students; //수강생 수
+
+    @OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     @Builder
     public Lecture(String title, String thumbnail, Platform platform, Category category, String instructionLink,String instructorName,
