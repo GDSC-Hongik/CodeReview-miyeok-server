@@ -21,6 +21,7 @@ public class Review {
     // 유저 - 크롤링
     private String username;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String content; //리뷰 내용
 
     @Enumerated(EnumType.STRING)
