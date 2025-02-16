@@ -13,8 +13,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -30,7 +33,11 @@ public class ReviewCrawlingService {
             String lectureLink = lecture.getLink();
 
             WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
             driver.get(lectureLink);
+
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(@class, 'mantine-1413au')]")));
 
             // 리뷰 크롤링 - 5개
             List<WebElement> webNames = driver.findElements(By.xpath("//a[contains(@class, 'mantine-1413au')]"));
