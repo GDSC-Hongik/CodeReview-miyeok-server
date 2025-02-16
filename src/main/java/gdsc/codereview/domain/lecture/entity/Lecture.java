@@ -22,7 +22,7 @@ public class Lecture {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor; //FK
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "instructor_link")
     private String instructorLink;
 
     @Column(nullable = false)
