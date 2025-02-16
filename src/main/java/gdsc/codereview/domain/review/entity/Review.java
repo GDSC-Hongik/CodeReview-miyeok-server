@@ -24,14 +24,17 @@ public class Review {
     private Lecture lecture;
 
     // 유저 - 크롤링
+    @Column(nullable = false)
     private String username;
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content; //리뷰 내용
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Platform platform;
 
+    @Column(nullable = false)
     private Long score; //등록평점
 
     private Long liked;

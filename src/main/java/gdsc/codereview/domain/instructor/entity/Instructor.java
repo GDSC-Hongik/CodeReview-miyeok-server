@@ -18,16 +18,20 @@ public class Instructor {
     @Column(name = "instructor_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name; //강사
 
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String instruction; //소개
 
+    @Column(nullable = false)
     private Double score;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Platform platform;
 
+    @Column(nullable = false)
     private String link;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
