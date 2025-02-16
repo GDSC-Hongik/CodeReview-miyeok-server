@@ -1,16 +1,14 @@
 package gdsc.codereview.domain.user.entity;
 
+import gdsc.codereview.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "user")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +16,10 @@ public class User {
     private Long id;
 
     @Column(nullable = false, name = "name")
-    private String username;
+    private String name;
+
+    @Column(nullable = false, columnDefinition = "varchar(255)")
+    private String email;
 
     private String introduction;
 
@@ -29,11 +30,23 @@ public class User {
     @Column(nullable = false, name = "social_id")
     private String socialId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+
     @Builder
-    public User(String username, String introduction, OAuthType provider, String socialId) {
-        this.username = username;
+    public User(String name, String email, String introduction, OAuthType provider, String socialId, Role role) {
+        this.name = name;
+        this.email = email;
         this.introduction = introduction;
         this.provider = provider;
         this.socialId = socialId;
+        this.role = role;
+    }
+
+    public void updateUserInfo(UserInfoRequest userInfoRequest) {
+        this.name = userInfoRequest.name();
+        this.introduction = userInfoRequest.introduction();
     }
 }
