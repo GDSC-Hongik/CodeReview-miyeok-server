@@ -1,9 +1,9 @@
 package gdsc.codereview.domain.lecture.dto;
 
+import gdsc.codereview.domain.instructor.entity.Instructor;
 import gdsc.codereview.domain.lecture.entity.Category;
 import gdsc.codereview.domain.lecture.entity.Lecture;
-import gdsc.codereview.domain.lecture.entity.Platform;
-import lombok.AllArgsConstructor;
+import gdsc.codereview.global.Platform;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,6 +11,9 @@ import lombok.Getter;
 public class LectureDto {
     private String title;
     private String summary;
+    private Instructor instructor;
+    private String instructorLink;
+    private String instructorName;
     private Platform platform;
     private Double score;
     private String thumbnail;
@@ -19,11 +22,14 @@ public class LectureDto {
     private Long students;
 
     @Builder
-    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,
-                      String link, Category category, Long students) {
+    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,String instructorName,
+                      Instructor instructor, String instructorLink, String link, Category category, Long students) {
         this.title = title;
         this.summary = summary;
         this.platform = platform;
+        this.instructor = instructor;
+        this.instructorLink=instructorLink;
+        this.instructorName=instructorName;
         this.score = score;
         this.thumbnail = thumbnail;
         this.link = link;
@@ -37,7 +43,9 @@ public class LectureDto {
                 .platform(platform)
                 .category(category)
                 .title(title)
+                .instructorName(instructorName)
                 .thumbnail(thumbnail)
+                .instructorLink(instructorLink)
                 .summary(summary)
                 .score(score)
                 .students(students)
