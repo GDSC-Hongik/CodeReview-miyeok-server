@@ -26,7 +26,6 @@ public class ReviewCrawlingService {
 
     public void crawlingAndSaveInflearnReview(){
         List<Lecture> lectures = lectureRepository.findAll();
-
         for(Lecture lecture: lectures){
             String lectureLink = lecture.getLink();
 
@@ -34,7 +33,6 @@ public class ReviewCrawlingService {
             driver.get(lectureLink);
 
             // 리뷰 크롤링 - 5개
-            // 5개가 안되거나 없는 경우,, 나중에 고려하기
             List<WebElement> webNames = driver.findElements(By.xpath("//a[contains(@class, 'mantine-1413au')]"));
             List<WebElement> webContents = driver.findElements(By.xpath("//p[contains(@class,'css-2csv75')]"));
             List<WebElement> webScores = driver.findElements(By.xpath("//p[contains(@aria-label, '평점')]"));
@@ -43,6 +41,10 @@ public class ReviewCrawlingService {
                 String name = webNames.get(i).getText();
                 String content = webContents.get(i).getText();
                 Long score = Long.parseLong(webScores.get(i).getText());
+
+                if(content.isEmpty()){
+                    content = "수강평점만 등록된 리뷰입니다.";
+                }
 
                 ReviewDto reviewDto = ReviewDto.builder()
                         .lecture(lecture)

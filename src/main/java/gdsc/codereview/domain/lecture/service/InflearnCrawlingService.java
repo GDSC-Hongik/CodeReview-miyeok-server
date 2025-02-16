@@ -63,7 +63,7 @@ public class InflearnCrawlingService {
 
         for(Category category : Category.values()){
 
-            for(int i=1;i<=1;i++){
+            for(int i=1;i<=1;i++){ //강의리스트 한페이지만 크롤링하도록 하드코딩
 
                 //인프런 url - 인기순
                 String url = category.getInflearnUrl();
@@ -101,6 +101,10 @@ public class InflearnCrawlingService {
         String instructorName = webInstructor.getText();
         String instructorLink = webInstructor.getAttribute("href");
         String summary = webSummary.getText();
+
+        if(summary.isEmpty()){
+            summary = "강의 소개가 등록되지 않은 강의입니다.";
+        }
 
         // 수강평점 크롤링 및 추출
         Double score = 0.0;
