@@ -141,7 +141,7 @@ public class InflearnCrawlingService {
                 .summary(summary)
                 .platform(Platform.INFLEARN)
                 .instructorName(instructorName)
-                .instructionLink(instructorLink)
+                .instructorLink(instructorLink)
                 .score(score)
                 .thumbnail(thumbnail)
                 .link(link)

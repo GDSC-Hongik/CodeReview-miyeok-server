@@ -22,7 +22,7 @@ public class Lecture {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor; //FK
 
-    private String instructionLink;
+    private String instructorLink;
 
     private String title;
 
@@ -50,12 +50,12 @@ public class Lecture {
     private List<Review> reviews;
 
     @Builder
-    public Lecture(String title, String thumbnail, Platform platform, Category category, String instructionLink,String instructorName,
+    public Lecture(String title, String thumbnail, Platform platform, Category category, String instructorLink, String instructorName,
                    Instructor instructor, String summary, Double score, Long students, String link) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.platform = platform;
-        this.instructionLink=instructionLink;
+        this.instructorLink = instructorLink;
         this.instructorName=instructorName;
         this.instructor=instructor;
         this.category = category;

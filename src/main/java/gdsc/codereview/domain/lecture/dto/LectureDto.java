@@ -12,7 +12,7 @@ public class LectureDto {
     private String title;
     private String summary;
     private Instructor instructor;
-    private String instructionLink;
+    private String instructorLink;
     private String instructorName;
     private Platform platform;
     private Double score;
@@ -23,12 +23,12 @@ public class LectureDto {
 
     @Builder
     public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,String instructorName,
-                      Instructor instructor, String instructionLink, String link, Category category, Long students) {
+                      Instructor instructor, String instructorLink, String link, Category category, Long students) {
         this.title = title;
         this.summary = summary;
         this.platform = platform;
         this.instructor = instructor;
-        this.instructionLink=instructionLink;
+        this.instructorLink=instructorLink;
         this.instructorName=instructorName;
         this.score = score;
         this.thumbnail = thumbnail;
@@ -45,7 +45,7 @@ public class LectureDto {
                 .title(title)
                 .instructorName(instructorName)
                 .thumbnail(thumbnail)
-                .instructionLink(instructionLink)
+                .instructorLink(instructorLink)
                 .summary(summary)
                 .score(score)
                 .students(students)

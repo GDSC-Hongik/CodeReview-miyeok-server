@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.openqa.selenium.By;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,14 +28,14 @@ public class InstructorCrawlingService {
 
         for(Lecture lecture : lectures){
 
-            Instructor existingInstructor = instructorRepository.findByLink(lecture.getInstructionLink());
+            Instructor existingInstructor = instructorRepository.findByLink(lecture.getInstructorLink());
 
             if (existingInstructor!=null) {
                 // 이미 존재하는 강사라면 패스
                 continue;
             }
 
-            String url = lecture.getInstructionLink();
+            String url = lecture.getInstructorLink();
 
             WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
             driver.get(url);
@@ -75,7 +74,7 @@ public class InstructorCrawlingService {
             if(instructor!=null) continue;
 
             // 강좌에 강사가 연결이 안되어있다면 fk 주입
-            Instructor newInstructor = instructorRepository.findByLink(lecture.getInstructionLink());
+            Instructor newInstructor = instructorRepository.findByLink(lecture.getInstructorLink());
             lecture.setInstructor(newInstructor);
             lectureRepository.save(lecture);
 
