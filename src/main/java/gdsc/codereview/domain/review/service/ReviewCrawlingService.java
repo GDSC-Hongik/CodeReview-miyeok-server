@@ -9,9 +9,7 @@ import gdsc.codereview.domain.review.repository.ReviewRepository;
 import gdsc.codereview.global.Platform;
 import gdsc.codereview.global.SeleniumConfig;
 import lombok.RequiredArgsConstructor;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,7 +35,14 @@ public class ReviewCrawlingService {
 
             driver.get(lectureLink);
 
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(@class, 'mantine-1413au')]")));
+            //리뷰가 아예 없을 경우에 대한 예외처리
+            try{
+                wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(@class, 'mantine-1413au')]")));
+            }catch(TimeoutException e){
+                driver.quit();
+                continue;
+            }
+
 
             // 리뷰 크롤링 - 5개
             List<WebElement> webNames = driver.findElements(By.xpath("//a[contains(@class, 'mantine-1413au')]"));
