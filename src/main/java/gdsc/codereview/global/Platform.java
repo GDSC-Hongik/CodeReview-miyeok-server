@@ -1,4 +1,4 @@
-package gdsc.codereview.domain.lecture.entity;
+package gdsc.codereview.global;
 
 import lombok.Getter;
 

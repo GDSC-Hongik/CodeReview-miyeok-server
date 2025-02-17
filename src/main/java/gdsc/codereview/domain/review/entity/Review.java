@@ -1,14 +1,17 @@
 package gdsc.codereview.domain.review.entity;
 
-import gdsc.codereview.domain.user.entity.User;
-import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import gdsc.codereview.domain.lecture.entity.Lecture;
+import gdsc.codereview.global.Platform;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "table")
+@Getter @Setter
+@RequiredArgsConstructor
 public class Review {
 
     @Id
@@ -16,29 +19,37 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "lecture_id")
-//    private Lecture lecture;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
 
-    @Column(name = "review")
-    private String reviewContent;
+    // 유저 - 크롤링
+    @Column(nullable = false)
+    private String username;
+
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
+    private String content; //리뷰 내용
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Platform platform;
 
     @Column(nullable = false)
-    private String site;
+    private Long score; //등록평점
 
-    @Column(nullable = false)
-    private float score;
+    private Long liked;
 
-    @Column(nullable = false)
-    private int liked;
+    private Long hated;
 
-    @Column(nullable = false)
-    private int disliked;
-
-    @Column(nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
+    @Builder
+    public Review(String username, String content, Platform platform, Lecture lecture,
+                  Long score, Long liked, Long hated) {
+        this.username = username;
+        this.content = content;
+        this.platform = platform;
+        this.lecture = lecture;
+        this.score = score;
+        this.liked = liked;
+        this.hated = hated;
+    }
 }
