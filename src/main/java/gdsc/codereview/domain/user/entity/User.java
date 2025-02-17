@@ -1,6 +1,5 @@
 package gdsc.codereview.domain.user.entity;
 
-import gdsc.codereview.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +7,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "user")
-public class User extends BaseEntity {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +44,12 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
-    public void updateUserInfo(UserInfoRequest userInfoRequest) {
-        this.name = userInfoRequest.name();
-        this.introduction = userInfoRequest.introduction();
+    public User updateIntroduction(String introduction) {
+        this.introduction = introduction;
+        return this;
+    }
+
+    public String getRoleKey() {
+        return this.role.getKey();
     }
 }
