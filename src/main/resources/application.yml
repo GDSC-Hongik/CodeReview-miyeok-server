@@ -11,3 +11,8 @@ spring:
       hibernate:
         format_sql: true
 #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+openai:
+  secret-key: ${OPENAI_SECRET_KEY}
+  url:
+    prompt: https://api.openai.com/v1/chat/completions
