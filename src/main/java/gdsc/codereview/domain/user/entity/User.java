@@ -44,6 +44,13 @@ public class User {
         this.role = role;
     }
 
+    public User update(String name, OAuthType provider, String socialId) {
+        this.name = name;
+        this.provider = provider;
+        this.socialId = socialId;
+        return this;
+    }
+
     public User updateIntroduction(String introduction) {
         this.introduction = introduction;
         return this;
