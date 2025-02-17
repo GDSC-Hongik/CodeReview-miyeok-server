@@ -21,15 +21,28 @@ public class LectureDto {
     private Category category;
     private Long students;
 
+    // Entity -> Dto
+    public LectureDto(Lecture lecture) {
+        this.title = lecture.getTitle();
+        this.summary = lecture.getSummary();
+        this.instructorName = lecture.getInstructor().getName(); // Lazy Loading 문제 해결용
+        this.instructorLink = lecture.getInstructorLink();
+        this.platform = lecture.getPlatform();
+        this.score = lecture.getScore();
+        this.thumbnail = lecture.getThumbnail();
+        this.link = lecture.getLink();
+        this.category = lecture.getCategory();
+        this.students = lecture.getStudents();
+    }
+
     @Builder
-    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,String instructorName,
-                      Instructor instructor, String instructorLink, String link, Category category, Long students) {
+    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,
+                      String instructorName, String instructorLink, String link, Category category, Long students) {
         this.title = title;
         this.summary = summary;
         this.platform = platform;
-        this.instructor = instructor;
-        this.instructorLink=instructorLink;
-        this.instructorName=instructorName;
+        this.instructorName = instructorName;
+        this.instructorLink = instructorLink;
         this.score = score;
         this.thumbnail = thumbnail;
         this.link = link;
