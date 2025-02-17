@@ -17,7 +17,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // 프론트엔드 도메인 허용
+        config.setAllowedOrigins(List.of("http://localhost:3000")); // 프론트엔드 도메인 허용 (테스트용. 5173으로 변경)
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
