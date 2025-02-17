@@ -65,4 +65,13 @@ public class LectureDto {
                 .link(link)
                 .build();
     }
+
+    // 강사 페이지에서 사용하기 위함
+    public static LectureDto fromEntity(Lecture lecture){
+        return LectureDto.builder()
+                .title(lecture.getTitle())
+                .thumbnail(lecture.getThumbnail())
+                .summary(lecture.getSummary())
+                .build();
+    }
 }

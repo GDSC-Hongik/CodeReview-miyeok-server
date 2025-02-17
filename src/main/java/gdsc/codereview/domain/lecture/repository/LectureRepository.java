@@ -17,4 +17,6 @@ public interface LectureRepository extends JpaRepository<Lecture, Long> {
 
     List<Lecture> findByTitle(String title);
 
+    List<Lecture> findByInstructorName(String name);
+
 }

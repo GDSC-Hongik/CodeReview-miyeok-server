@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
-
     Instructor findByLink(String link);
+
+    Instructor findByName(String name);
 }
