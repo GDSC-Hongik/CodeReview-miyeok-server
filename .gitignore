@@ -38,3 +38,6 @@ out/
 
 ### 환경변수 ###
 .env
+
+### oauth 설정 ###
+application-oauth.yml
