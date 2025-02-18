@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/index").permitAll()
                         .requestMatchers("/oauth2/**").permitAll() // OAuth2 인증 경로 허용
-                        .requestMatchers("/api/**").hasRole(Role.USER.name()) // /api/**는 USER 권한만
-                        .requestMatchers("/api/auth/**").permitAll() // 인증 관련 API는 모두 허용
+                        //.requestMatchers("/api/**").hasRole(Role.USER.name()) // /api/**는 USER 권한만
+                        .requestMatchers("/api/**").permitAll() // 인증 관련 API는 모두 허용
                         .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
                 )
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
