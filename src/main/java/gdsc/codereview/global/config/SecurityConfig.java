@@ -1,57 +1,81 @@
-package gdsc.codereview.global.config;
-
-import gdsc.codereview.domain.auth.jwt.JwtAuthenticationFilter;
-import gdsc.codereview.domain.auth.jwt.JwtTokenProvider;
-import gdsc.codereview.domain.auth.service.CustomOAuth2UserService;
-import gdsc.codereview.domain.user.entity.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
+@EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final CorsFilter corsFilter;
+    private final JwtFilter jwtFilter;
+    private final ExceptionFilter exceptionFilter;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationHandler jwtAuthenticationEntryPoint;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/index").permitAll()
-                        .requestMatchers("/oauth2/**").permitAll() // OAuth2 인증 경로 허용
-                        //.requestMatchers("/api/**").hasRole(Role.USER.name()) // /api/**는 USER 권한만
-                        .requestMatchers("/api/**").permitAll() // 인증 관련 API는 모두 허용
-                        .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
-                )
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout -> logout.logoutSuccessUrl("/"))
-                .oauth2Login(oauth2 -> oauth2
-                        .authorizationEndpoint(endpointConfig ->
-                                endpointConfig.baseUri("/oauth2/authorization/google") // 구글 OAuth2 인증 경로
-                        )
-                        .redirectionEndpoint(endpointConfig ->
-                                endpointConfig.baseUri("/login/oauth2/code/google")) // 구글 로그인 후 리디렉션 경로
-                        .userInfoEndpoint(userInfo ->
-                                userInfo.userService(customOAuth2UserService)) // 로그인 성공 후 사용자 정보를 처리
-                );
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable);
+
+        http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));// Session 미사용
+        http.httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable);
+
+        http.exceptionHandling((exceptionHandling) ->
+                exceptionHandling
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        );
+        http.authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers( "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html/**", "/v3/api-docs/**", "/swagger-ui/index.html#/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/course/**").permitAll()
+                        .requestMatchers("/api/review/**", "/api/auth/sign-out/**", "api/auth/recreate/**","/api/user/**", "/api/mypage/**").authenticated()
+                        .anyRequest().permitAll())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(exceptionFilter, JwtFilter.class);
+
 
         return http.build();
     }
 
     @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(List.of("http://localhost:8080", "http://13.209.165.107:8080" ,"http://13.209.165.107:8080/", "http://localhost:3000", "http://localhost:5173" ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setExposedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new HttpStatusReturningLogoutSuccessHandler();
     }
 }
