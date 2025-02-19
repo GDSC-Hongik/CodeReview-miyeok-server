@@ -48,7 +48,7 @@ public class LectureService {
         return lectureReviewDtos;
     }
 
-    
+
     // ID에 맞는 summary 가져오기 위함
     public String getLectureSummary(Long lectureId) {
         Optional<Lecture> lecture = lectureRepository.findById(lectureId);
@@ -60,4 +60,17 @@ public class LectureService {
         return lecture.orElseThrow(() -> new IllegalArgumentException("강좌를 찾을 수 없습니다."));
     }
 
+
+    public List<LectureDto> searchLectureOrInstructor(String keyword){
+        List<Lecture> toDto = new ArrayList<>();
+
+        toDto.addAll(lectureRepository.findByTitleContaining(keyword));
+        toDto.addAll(lectureRepository.findByInstructorNameContaining(keyword));
+
+        List<LectureDto> dto = new ArrayList<>();
+        for(Lecture lecture : toDto){
+            dto.add(new LectureDto(lecture));
+        }
+        return dto;
+    }
 }

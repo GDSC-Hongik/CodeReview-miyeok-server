@@ -40,7 +40,8 @@ public class LectureComparisonController {
                 lecture1.getTitle(),
                 lecture1.getThumbnail(),
                 lecture1.getStudents(),
-                lecture1.getScore()
+                lecture1.getScore(),
+                lecture1.getPrice()
         );
 
         // 두 번째 강좌 정보
@@ -48,13 +49,13 @@ public class LectureComparisonController {
                 lecture2.getTitle(),
                 lecture2.getThumbnail(),
                 lecture2.getStudents(),
-                lecture2.getScore()
+                lecture2.getScore(),
+                lecture2.getPrice()
         );
 
         // lectures 배열에 두 개의 강좌 정보를 설정
         dto.setLectures(new LectureSimpleResponseDto.LectureInfo[]{info1, info2});
 
-        // ResponseEntity로 반환
         return ResponseEntity.ok(dto);
     }
 

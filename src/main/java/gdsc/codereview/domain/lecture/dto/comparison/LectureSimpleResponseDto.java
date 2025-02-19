@@ -22,5 +22,6 @@ public class LectureSimpleResponseDto {
         private String thumbnail;
         private Long students;
         private Double score;
+        private Long price;
     }
 }

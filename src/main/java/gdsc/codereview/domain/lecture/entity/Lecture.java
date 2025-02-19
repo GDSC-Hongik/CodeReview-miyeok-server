@@ -46,6 +46,8 @@ public class Lecture {
 
     @Column(nullable = false)
     private String link; // 강좌 페이지
+    
+    private Long price; // 강좌가격
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -59,10 +61,11 @@ public class Lecture {
 
     @Builder
     public Lecture(String title, String thumbnail, Platform platform, Category category, String instructorLink, String instructorName,
-                   Instructor instructor, String summary, Double score, Long students, String link) {
+                   Instructor instructor, String summary, Double score, Long students, String link, Long price) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.platform = platform;
+        this.price = price;
         this.instructorLink = instructorLink;
         this.instructorName=instructorName;
         this.instructor=instructor;
