@@ -1,48 +1,36 @@
 package gdsc.codereview.domain.user.controller;
 
-import gdsc.codereview.domain.auth.jwt.JwtTokenProvider;
+import gdsc.codereview.domain.user.dto.response.IntroductionRequest;
 import gdsc.codereview.domain.user.entity.User;
-import gdsc.codereview.domain.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
+import gdsc.codereview.global.exception.ApiResponse;
+import gdsc.codereview.domain.user.dto.response.UserResponse;
+import gdsc.codereview.domain.user.converter.UserConverter;
+import gdsc.codereview.domain.auth.service.AuthDetails;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "User")
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<?> getUserInfo(HttpServletRequest request) {
-        String token = jwtTokenProvider.resolveToken(request);
-
-        if (token == null || !jwtTokenProvider.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰이 유효하지 않거나 존재하지 않습니다.");
-        }
-
-        String username = jwtTokenProvider.getUsername(token);
-
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return ResponseEntity.ok(user);
+    @Operation(summary = "유저 정보 조회")
+    public ApiResponse<UserResponse> getUser(@AuthenticationPrincipal AuthDetails authDetails) {
+        User user = authDetails.user();
+        return ApiResponse.onSuccess(UserConverter.toUserResDto(user));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // 유저 정보 반환
-        return ResponseEntity.ok(user);
+    @PostMapping("")
+    @Operation(summary = "유저 정보 입력", description = "description 정보 입력")
+    public ApiResponse<UserResponse> createUserInfo(@AuthenticationPrincipal AuthDetails authDetails, @RequestBody IntroductionRequest introductionRequest) {
+        return ApiResponse.onSuccess(userService.createUserInfo(String.valueOf(authDetails.user().getId()), introductionRequest.getIntroduction()));
     }
 
 

@@ -1,3 +1,9 @@
+package gdsc.codereview.global.config;
+
+import gdsc.codereview.domain.auth.jwt.JwtAccessDeniedHandler;
+import gdsc.codereview.domain.auth.jwt.JwtAuthenticationHandler;
+import gdsc.codereview.domain.auth.jwt.JwtFilter;
+import gdsc.codereview.domain.auth.security.ExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,11 +52,17 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers( "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html/**", "/v3/api-docs/**", "/swagger-ui/index.html#/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/course/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/review/**", "/api/auth/sign-out/**", "api/auth/recreate/**","/api/user/**", "/api/mypage/**").authenticated()
                         .anyRequest().permitAll())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(exceptionFilter, JwtFilter.class);
+        http.oauth2Login(oauth2 -> oauth2
+                .loginPage("/oauth2/authorization/google") // 구글 로그인 페이지 설정
+                .defaultSuccessUrl("http://localhost:3000/oauth2/redirect", true)
+                .failureUrl("/login?error")
 
+        );
 
         return http.build();
     }
