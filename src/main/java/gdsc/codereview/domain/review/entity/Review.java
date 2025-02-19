@@ -2,6 +2,7 @@ package gdsc.codereview.domain.review.entity;
 
 
 import gdsc.codereview.domain.lecture.entity.Lecture;
+import gdsc.codereview.domain.user.entity.User;
 import gdsc.codereview.global.Platform;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -24,14 +25,12 @@ public class Review {
     private Lecture lecture;
 
     // 유저 - 크롤링
-    @Column(nullable = false)
     private String username;
 
     @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String content; //리뷰 내용
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Platform platform;
 
     @Column(nullable = false)
@@ -40,6 +39,10 @@ public class Review {
     private Long liked;
 
     private Long hated;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
 
     @Builder
     public Review(String username, String content, Platform platform, Lecture lecture,
