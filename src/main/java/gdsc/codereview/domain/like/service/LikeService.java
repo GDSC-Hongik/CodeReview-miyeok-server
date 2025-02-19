@@ -9,6 +9,8 @@ import gdsc.codereview.domain.review.repository.ReviewRepository;
 
 import gdsc.codereview.domain.user.entity.User;
 import gdsc.codereview.domain.user.repository.UserRepository;
+import gdsc.codereview.global.exception.GeneralException;
+import gdsc.codereview.global.exception.status.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +49,7 @@ public class LikeService {
                 }
             } else {
                 // 반대 타입이면 변경 불가
-                throw new IllegalStateException("이미 " + like.getLikeType() + "한 리뷰입니다. 취소 후 다시 시도해주세요.");
+                throw new GeneralException(ErrorStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             // 좋아요/싫어요 등록
