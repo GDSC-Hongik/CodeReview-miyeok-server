@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .addFilterBefore(exceptionFilter, JwtFilter.class);
         http.oauth2Login(oauth2 -> oauth2
                 .loginPage("/oauth2/authorization/google") // 구글 로그인 페이지 설정
-                .defaultSuccessUrl("http://localhost:3000/oauth2/redirect", true)
+                .defaultSuccessUrl("http://localhost:5173/oauth2/redirect", true)
                 .failureUrl("/login?error")
 
         );
