@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class LectureReviewDto {
+    private Long id;
     private String title;
     private String summary;
     private String instructorLink;
@@ -27,6 +28,7 @@ public class LectureReviewDto {
     private List<ReviewDto> reviews;
 
     public LectureReviewDto(Lecture lecture, List<Review> reviews) {
+        this.id = lecture.getId();
         this.title = lecture.getTitle();
         this.summary = lecture.getSummary();
         this.instructorName = lecture.getInstructor().getName(); // Lazy Loading 문제 해결용
