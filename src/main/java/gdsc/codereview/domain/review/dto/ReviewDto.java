@@ -14,12 +14,12 @@ public class ReviewDto {
     private Platform platform;
     private Lecture lecture;
     private Long score;
-    private Long liked;
-    private Long hated;
+    private Integer liked;
+    private Integer hated;
 
     @Builder
     public ReviewDto(String username, String content, Platform platform, Long score,
-                     Lecture lecture, Long liked, Long hated) {
+                     Lecture lecture, Integer liked, Integer hated) {
         this.username = username;
         this.content = content;
         this.lecture = lecture;
