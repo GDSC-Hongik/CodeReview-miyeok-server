@@ -1,4 +1,4 @@
-package gdsc.codereview.domain.user.controller;
+package gdsc.codereview.domain.user.service;
 
 import gdsc.codereview.domain.user.converter.UserConverter;
 import gdsc.codereview.domain.user.dto.response.UserResponse;
@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -17,10 +19,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    // 구글 로그인으로 유저 정보 가져오기
+    // 유저 정보 가져오기
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
+
+    public User updateUserIntroduction(User user, String introduction) {
+        return user.updateUserInfo(introduction);
     }
 
     @Transactional
@@ -28,15 +34,4 @@ public class UserService {
         userRepository.delete(user);
     }
 
-
-    // 구글 로그인 후 정보 업데이트
-    @Transactional
-    public UserResponse createUserInfo(String email, String introduction) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_FOUND));
-
-        user.updateUserInfo(introduction);
-
-        return UserConverter.toUserResDto(user);
-    }
 }
