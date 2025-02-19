@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    @Operation(summary = "회원 소개글 등록", description = "introduction 등록")
+    @Operation(summary = "회원 소개글 등록 및 수정", description = "introduction 등록 및 수정")
     public ResponseEntity<UserResponse> createUserInfo( @RequestBody IntroductionRequest introductionRequest) {
 
         String userEmail = introductionRequest.getEmail();
@@ -61,23 +61,7 @@ public class UserController {
 
         return ResponseEntity.ok(userResponse);
     }
-
-
-    @PutMapping("/update")
-    @Operation(summary = "회원 소개글 수정", description = "introduction 수정")
-    public ResponseEntity<UserResponse> updateIntroduction(@RequestBody IntroductionRequest introductionRequest) {
-
-        String userEmail = introductionRequest.getEmail();
-        String introduction = introductionRequest.getIntroduction();
-
-        User user = userService.getUserByEmail(userEmail);
-
-        user = userService.updateUserIntroduction(user, introduction);
-
-        UserResponse userResponse = buildUserResponse(user);
-
-        return ResponseEntity.ok(userResponse);
-    }
+    
 
     private UserResponse buildUserResponse(User user) {
         return UserResponse.builder()

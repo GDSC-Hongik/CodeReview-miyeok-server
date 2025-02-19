@@ -1,11 +1,7 @@
 package gdsc.codereview.domain.user.service;
 
-import gdsc.codereview.domain.user.converter.UserConverter;
-import gdsc.codereview.domain.user.dto.response.UserResponse;
 import gdsc.codereview.domain.user.entity.User;
 import gdsc.codereview.domain.user.repository.UserRepository;
-import gdsc.codereview.global.exception.GeneralException;
-import gdsc.codereview.global.exception.status.ErrorStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +10,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -26,7 +22,9 @@ public class UserService {
     }
 
     public User updateUserIntroduction(User user, String introduction) {
-        return user.updateUserInfo(introduction);
+        user = user.updateUserInfo(introduction);
+        return userRepository.save(user);
+
     }
 
     @Transactional
