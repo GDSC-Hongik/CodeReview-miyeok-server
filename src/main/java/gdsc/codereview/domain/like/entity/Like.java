@@ -1,5 +1,6 @@
 package gdsc.codereview.domain.like.entity;
 
+import gdsc.codereview.domain.review.entity.Review;
 import gdsc.codereview.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Builder
-@Table(name = "like")
+@Table(name = "review_like")
 public class Like {
 
     @Id
@@ -18,12 +19,14 @@ public class Like {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // 리뷰 ID foreign key
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id", nullable = false)
+    private Review review;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "liked_or_hated")
+    @Column(name = "like_type")
     private LikeType likeType;
 }
