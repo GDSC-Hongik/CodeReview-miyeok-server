@@ -1,7 +1,10 @@
 package gdsc.codereview.domain.user.entity;
 
+import gdsc.codereview.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +36,8 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Review> reviews;
 
     @Builder
     public User(String name, String email, String introduction, OAuthType provider, String socialId, Role role) {
