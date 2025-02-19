@@ -20,7 +20,7 @@ public class LikeController {
     private final LikeService likeService;
     private final ReviewRepository reviewRepository;
 
-    @Operation(summary = "좋아요/싫어요 토글", description = "같은 타입 2번 요청 시 취소됨. 취소하지 않은 채로 다른 타입 요청 시 오류 반환")
+    @Operation(summary = "좋아요/싫어요 토글", description = "같은 타입 2번 요청 시 취소됨. 취소하지 않은 채로 다른 타입 요청 시 500 ERROR 반환")
     @PostMapping("/{reviewId}")
     public LikeResponseDto toggleLike(
             @PathVariable Long reviewId,
