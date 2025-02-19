@@ -1,12 +1,8 @@
 package gdsc.codereview.domain.auth.service;
 
-import gdsc.codereview.domain.auth.converter.AuthConverter;
 import gdsc.codereview.domain.auth.jwt.JwtProvider;
-import gdsc.codereview.domain.user.controller.UserService;
-import gdsc.codereview.domain.user.converter.UserConverter;
-import gdsc.codereview.domain.user.dto.response.SignInResponse;
+import gdsc.codereview.domain.user.service.UserService;
 import gdsc.codereview.domain.user.dto.response.TokenResponse;
-import gdsc.codereview.domain.user.dto.response.UserResponse;
 import gdsc.codereview.domain.user.entity.User;
 import gdsc.codereview.global.exception.GeneralException;
 import gdsc.codereview.global.exception.status.ErrorStatus;
