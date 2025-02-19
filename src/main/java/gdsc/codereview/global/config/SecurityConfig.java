@@ -32,7 +32,8 @@ public class SecurityConfig {
                         .requestMatchers("/oauth2/**").permitAll() // OAuth2 인증 경로 허용
                         //.requestMatchers("/api/**").hasRole(Role.USER.name()) // /api/**는 USER 권한만
                         .requestMatchers("/api/**").permitAll() // 인증 관련 API는 모두 허용
-                        .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
+//                        .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
+                        .anyRequest().permitAll() // 인증없이 요청 허용
                 )
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
