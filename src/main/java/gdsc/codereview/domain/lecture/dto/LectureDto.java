@@ -20,11 +20,13 @@ public class LectureDto {
     private String link;
     private Category category;
     private Long students;
+    private Long price;
 
     // Entity -> Dto
     public LectureDto(Lecture lecture) {
         this.title = lecture.getTitle();
         this.summary = lecture.getSummary();
+        this.price = lecture.getPrice();
         this.instructorName = lecture.getInstructor().getName(); // Lazy Loading 문제 해결용
         this.instructorLink = lecture.getInstructorLink();
         this.platform = lecture.getPlatform();
@@ -36,11 +38,12 @@ public class LectureDto {
     }
 
     @Builder
-    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail,
+    public LectureDto(String title, String summary, Platform platform, Double score, String thumbnail, Long price,
                       String instructorName, String instructorLink, String link, Category category, Long students) {
         this.title = title;
         this.summary = summary;
         this.platform = platform;
+        this.price = price;
         this.instructorName = instructorName;
         this.instructorLink = instructorLink;
         this.score = score;
@@ -56,6 +59,7 @@ public class LectureDto {
                 .platform(platform)
                 .category(category)
                 .title(title)
+                .price(price)
                 .instructorName(instructorName)
                 .thumbnail(thumbnail)
                 .instructorLink(instructorLink)

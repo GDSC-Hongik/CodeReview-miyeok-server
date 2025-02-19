@@ -2,6 +2,7 @@ package gdsc.codereview.domain.lecture.service;
 
 import gdsc.codereview.domain.lecture.dto.LectureDto;
 import gdsc.codereview.domain.lecture.entity.Category;
+import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.global.Platform;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import gdsc.codereview.global.config.SeleniumConfig;
@@ -136,6 +137,7 @@ public class InflearnCrawlingService {
 //            System.out.println("수강생 수가 없는 강좌입니다.");
         }
 
+
         LectureDto lectureDto = LectureDto.builder()
                 .title(title)
                 .summary(summary)
@@ -153,6 +155,41 @@ public class InflearnCrawlingService {
 
         driver.quit();
 
+    }
+
+
+    //따로크롤링 하기 위함
+    public void priceCrawling(){
+        List<Lecture> lectures = lectureRepository.findAll();
+
+        WebDriver driver = new ChromeDriver(SeleniumConfig.getChromeOptions());
+
+        for(Lecture lecture : lectures){
+
+            String url = lecture.getLink();
+            driver.get(url);
+
+            Long price = 0L; // 기본값: 0원
+
+            try {
+                WebElement webPrice = driver.findElement(By.xpath("//p[contains(@aria-label, '정가')]"));
+                String text = webPrice.getText();
+
+                // 숫자만 남기고 변환
+                String numericText = text.replaceAll("[^0-9]", "");
+                price = Long.parseLong(numericText);
+
+
+            } catch (NoSuchElementException e) {
+                // 가격 정보가 없으면 기본값 유지 (0원)
+            }
+
+            // 가격 저장
+            lecture.setPrice(price);
+            lectureRepository.save(lecture);
+        }
+
+        driver.quit();
     }
 }
 
