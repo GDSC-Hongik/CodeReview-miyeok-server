@@ -15,4 +15,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 
     // 특정 유저가 즐겨찾기한 모든 강좌
     List<Favorite> findAllByUser(User user);
+
+    // 즐겨찾기 삭제용
+    Optional<Favorite> findByUserIdAndLectureId(Long userId, Long lectureId);
 }

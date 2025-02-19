@@ -28,6 +28,13 @@ public class FavoriteController {
         return ResponseEntity.ok("즐겨찾기에 추가되었습니다.");
     }
 
+    @Operation(summary = "즐겨찾기 삭제", description = "강좌를 즐겨찾기에서 삭제")
+    @DeleteMapping("/{lectureId}")
+    public ResponseEntity<String> removeFavorite(@RequestParam Long userId, @PathVariable Long lectureId) {
+        favoriteService.removeFavorite(userId, lectureId);
+        return ResponseEntity.ok("즐겨찾기에서 삭제되었습니다.");
+    }
+
     @Operation(summary = "즐겨찾기 목록 조회", description = "특정 유저가 즐겨찾기 한 강좌 목록 조회")
     @GetMapping("/{userId}")
     public ResponseEntity<List<LectureDto>> getUserFavorites(@PathVariable Long userId) {
@@ -39,4 +46,6 @@ public class FavoriteController {
 
         return ResponseEntity.ok(response);
     }
+
+
 }

@@ -54,4 +54,10 @@ public class FavoriteService {
                 .map(Favorite::getLecture)
                 .collect(Collectors.toList());
     }
+
+    public void removeFavorite(Long userId, Long lectureId) {
+        Favorite favorite = favoriteRepository.findByUserIdAndLectureId(userId, lectureId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 즐겨찾기가 존재하지 않습니다."));
+        favoriteRepository.delete(favorite);
+    }
 }
