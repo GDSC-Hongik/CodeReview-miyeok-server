@@ -31,13 +31,13 @@ public class LectureController {
         return ResponseEntity.ok(lectureDtos);
     }
 
-    @GetMapping("course")
+    @GetMapping("/course")
     public ResponseEntity<List<LectureReviewDto>> getLectureWithReview(@RequestParam("title") String title){
         List<LectureReviewDto> lectureReviewDtos = lectureService.getLectureWithReview(title);
         return ResponseEntity.ok(lectureReviewDtos);
     }
 
-    @GetMapping("search")
+    @GetMapping("/search")
     public ResponseEntity<?> searchKeyword(@RequestParam("keyword") String keyword){
         List<LectureDto> lectureDtos = lectureService.searchLectureOrInstructor(keyword);
 

@@ -1,4 +1,4 @@
-package gdsc.codereview.domain.review;
+package gdsc.codereview.domain.review.controller;
 
 import gdsc.codereview.domain.review.dto.ReviewCreateDto;
 import gdsc.codereview.domain.review.service.ReviewService;
@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @RequestMapping("/review/create")
-    @PostMapping
+    @PostMapping("/review/create")
     public void createReview(@RequestBody ReviewCreateDto requestDto){
         reviewService.createReview(requestDto.getCourseId(), requestDto.getEmail(), requestDto.getContent(), requestDto.getScore());
     }
