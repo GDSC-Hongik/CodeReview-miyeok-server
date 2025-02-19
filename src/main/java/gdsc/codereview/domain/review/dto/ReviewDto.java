@@ -9,7 +9,6 @@ import lombok.Getter;
 @Getter
 public class ReviewDto {
 
-    private Long id;
     private String username;
     private String content;
     private Platform platform;
@@ -42,4 +41,14 @@ public class ReviewDto {
                 .build();
     }
 
+    public static ReviewDto fromEntity(Review review) {
+        return ReviewDto.builder()
+                .username(review.getUsername())
+                .content(review.getContent())
+                .platform(review.getPlatform())
+                .score(review.getScore())
+                .liked(review.getLiked())
+                .hated(review.getHated())
+                .build();
+    }
 }

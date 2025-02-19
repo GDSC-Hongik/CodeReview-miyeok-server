@@ -4,7 +4,7 @@ import gdsc.codereview.domain.lecture.dto.LectureDto;
 import gdsc.codereview.domain.lecture.entity.Category;
 import gdsc.codereview.global.Platform;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
-import gdsc.codereview.global.SeleniumConfig;
+import gdsc.codereview.global.config.SeleniumConfig;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;

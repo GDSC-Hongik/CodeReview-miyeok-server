@@ -6,7 +6,7 @@ import gdsc.codereview.domain.instructor.repository.InstructorRepository;
 import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import gdsc.codereview.global.Platform;
-import gdsc.codereview.global.SeleniumConfig;
+import gdsc.codereview.global.config.SeleniumConfig;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,4 +1,4 @@
-package gdsc.codereview.global;
+package gdsc.codereview.global.config;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 

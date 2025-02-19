@@ -7,7 +7,7 @@ import gdsc.codereview.domain.review.dto.ReviewDto;
 import gdsc.codereview.domain.review.entity.Review;
 import gdsc.codereview.domain.review.repository.ReviewRepository;
 import gdsc.codereview.global.Platform;
-import gdsc.codereview.global.SeleniumConfig;
+import gdsc.codereview.global.config.SeleniumConfig;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
