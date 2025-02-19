@@ -6,6 +6,7 @@ import gdsc.codereview.domain.lecture.dto.comparison.LectureComparisonResponseDt
 import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
 import gdsc.codereview.domain.lecture.service.LectureComparisonService;
+import gdsc.codereview.domain.lecture.service.LectureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class LectureComparisonServiceImpl implements LectureComparisonService {
 
     private final LectureRepository lectureRepository;
+    private final LectureService lectureService; // 추가된 LectureService
     private final ChatGPTService chatGPTService;
 
     @Override
@@ -24,9 +26,9 @@ public class LectureComparisonServiceImpl implements LectureComparisonService {
         Lecture lecture2 = lectureRepository.findById(requestDto.getLectureId2())
                 .orElseThrow(() -> new IllegalArgumentException("강의를 찾을 수 없습니다."));
 
-        // 강의 summary 값을 가져와 OpenAI API에 전달
-        String lecture1Summary = lecture1.getSummary();
-        String lecture2Summary = lecture2.getSummary();
+        // LectureService를 사용하여 각 강의의 summary를 가져옴
+        String lecture1Summary = lectureService.getLectureSummary(requestDto.getLectureId1());
+        String lecture2Summary = lectureService.getLectureSummary(requestDto.getLectureId2());
 
         // OpenAI API를 사용하여 강의 내용 비교
         String comparisonResult = chatGPTService.compareLectureSummaries(lecture1Summary, lecture2Summary);
