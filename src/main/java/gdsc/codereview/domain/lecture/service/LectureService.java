@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,4 +47,17 @@ public class LectureService {
 
         return lectureReviewDtos;
     }
+
+    
+    // ID에 맞는 summary 가져오기 위함
+    public String getLectureSummary(Long lectureId) {
+        Optional<Lecture> lecture = lectureRepository.findById(lectureId);
+        return lecture.map(Lecture::getSummary).orElseThrow(() -> new IllegalArgumentException("강좌를 찾을 수 없습니다."));
+    }
+
+    public Lecture getLecture(Long lectureId) {
+        Optional<Lecture> lecture = lectureRepository.findById(lectureId);
+        return lecture.orElseThrow(() -> new IllegalArgumentException("강좌를 찾을 수 없습니다."));
+    }
+
 }
