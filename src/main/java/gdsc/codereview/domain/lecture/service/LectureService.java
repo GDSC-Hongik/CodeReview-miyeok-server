@@ -46,4 +46,17 @@ public class LectureService {
 
         return lectureReviewDtos;
     }
+
+    public List<LectureDto> searchLectureOrInstructor(String keyword){
+        List<Lecture> toDto = new ArrayList<>();
+
+        toDto.addAll(lectureRepository.findByTitleContaining(keyword));
+        toDto.addAll(lectureRepository.findByInstructorNameContaining(keyword));
+
+        List<LectureDto> dto = new ArrayList<>();
+        for(Lecture lecture : toDto){
+            dto.add(new LectureDto(lecture));
+        }
+        return dto;
+    }
 }
