@@ -24,7 +24,8 @@ public enum ErrorStatus implements BaseCode {
     // 세션
     SESSION_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "UNAUTHORIZED", "유효하지 않은 세션입니다."),
 
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "서버 에러");
+    // 좋아요/싫어요 관련
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "반대 타입의 에러를 중복 등록할 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
