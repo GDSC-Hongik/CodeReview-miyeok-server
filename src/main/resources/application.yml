@@ -23,4 +23,6 @@ openai:
 
 jwt:
   secret: ${JWT_SECRET_KEY}
-  access-token-validity: 3600000
+  token:
+    access-expiration-time: 3600000
+    refresh-expiration-time: 8640000

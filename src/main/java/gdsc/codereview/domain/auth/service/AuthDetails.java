@@ -1,23 +1,38 @@
 package gdsc.codereview.domain.auth.service;
 
-import lombok.RequiredArgsConstructor;
+import gdsc.codereview.domain.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
-@RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
+public record AuthDetails(User user, Map<String, Object> attributes) implements UserDetails, OAuth2User {
 
-    private final String username;
+
+    public AuthDetails(User user) {
+        this(user, Map.of());
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return user.getName();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority(user.getRole().toString()));
     }
 
+    // 사용 안 함
     @Override
     public String getPassword() {
         return null;
@@ -25,7 +40,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getEmail();
     }
 
     @Override

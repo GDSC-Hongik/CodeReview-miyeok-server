@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
 public class User {
 
@@ -44,19 +44,8 @@ public class User {
         this.role = role;
     }
 
-    public User update(String name, OAuthType provider, String socialId) {
-        this.name = name;
-        this.provider = provider;
-        this.socialId = socialId;
-        return this;
-    }
-
-    public User updateIntroduction(String introduction) {
+    public User updateUserInfo(String introduction) {
         this.introduction = introduction;
         return this;
-    }
-
-    public String getRoleKey() {
-        return this.role.getKey();
     }
 }
