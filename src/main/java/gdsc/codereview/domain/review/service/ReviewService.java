@@ -2,6 +2,7 @@ package gdsc.codereview.domain.review.service;
 
 import gdsc.codereview.domain.lecture.entity.Lecture;
 import gdsc.codereview.domain.lecture.repository.LectureRepository;
+import gdsc.codereview.domain.review.dto.ReviewResponseDto;
 import gdsc.codereview.domain.review.entity.Review;
 import gdsc.codereview.domain.review.repository.ReviewRepository;
 import gdsc.codereview.domain.user.entity.User;
@@ -36,10 +37,21 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
+    // 리뷰를 남긴 강좌 목록을 가져옴
     public List<Lecture> getLecturesByUser(Long userId) {
         List<Review> reviews = reviewRepository.findAllByUserId(userId);
         return reviews.stream()
                 .map(Review::getLecture)
                 .collect(Collectors.toList());
     }
+
+    // 리뷰 목록을 가져옴
+    public List<ReviewResponseDto> getReviewsByUser(Long userId) {
+        List<Review> reviews = reviewRepository.findAllByUserId(userId);
+        return reviews.stream()
+                .map(ReviewResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
 }
