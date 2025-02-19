@@ -1,6 +1,5 @@
-package gdsc.codereview.domain.user.dto.response;
+package gdsc.codereview.domain.user.dto.request;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class IntroductionRequest {
 
-    @Schema(description = "소개글")
+    private String email;
     private String introduction;
 
 }
