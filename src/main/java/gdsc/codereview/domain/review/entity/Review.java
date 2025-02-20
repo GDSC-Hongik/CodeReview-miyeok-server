@@ -70,8 +70,9 @@ public class Review {
     }
 
     @Builder
-    public Review(String username, String content, Platform platform, Lecture lecture,
+    public Review(Long id, String username, String content, Platform platform, Lecture lecture,
                   Long score, Integer liked, Integer hated) {
+        this.id = id;
         this.username = username;
         this.content = content;
         this.platform = platform;
