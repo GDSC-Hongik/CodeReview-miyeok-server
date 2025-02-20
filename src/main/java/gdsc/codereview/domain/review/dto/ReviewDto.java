@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class ReviewDto {
-
+    private Long id;
     private String username;
     private String content;
     private Platform platform;
@@ -18,8 +18,9 @@ public class ReviewDto {
     private Integer hated;
 
     @Builder
-    public ReviewDto(String username, String content, Platform platform, Long score,
+    public ReviewDto(Long id, String username, String content, Platform platform, Long score,
                      Lecture lecture, Integer liked, Integer hated) {
+        this.id = id;
         this.username = username;
         this.content = content;
         this.lecture = lecture;
@@ -31,6 +32,7 @@ public class ReviewDto {
 
     public Review toEntity() {
         return Review.builder()
+                .id(id)
                 .username(username)
                 .content(content)
                 .lecture(lecture)
@@ -43,6 +45,7 @@ public class ReviewDto {
 
     public static ReviewDto fromEntity(Review review) {
         return ReviewDto.builder()
+                .id(review.getId())
                 .username(review.getUsername())
                 .content(review.getContent())
                 .platform(review.getPlatform())
