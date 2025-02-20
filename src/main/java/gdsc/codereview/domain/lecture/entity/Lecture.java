@@ -60,8 +60,9 @@ public class Lecture {
     private List<Review> reviews;
 
     @Builder
-    public Lecture(String title, String thumbnail, Platform platform, Category category, String instructorLink, String instructorName,
+    public Lecture(Long id,String title, String thumbnail, Platform platform, Category category, String instructorLink, String instructorName,
                    Instructor instructor, String summary, Double score, Long students, String link, Long price) {
+        this.id = id;
         this.title = title;
         this.thumbnail = thumbnail;
         this.platform = platform;
